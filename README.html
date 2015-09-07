@@ -1,0 +1,96 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>README.md</title><style></style></head><body id="preview">
+<h3><a id="Title_0"></a>Title</h3>
+<p>Using an Interactive Genetic Algorithm and Markov Chain to Compose Melodies Relevant to the User’s Taste</p>
+<h3><a id="Author_3"></a>Author</h3>
+<p>Alireza Samar</p>
+<h3><a id="Abstract_6"></a>Abstract</h3>
+<p>Music can be created by anything; it is the melody, which leaves a lasting impression. Simulating the process of evolution on a computer allows one to witness and influence the creation of melodies. I propose a technique to have the computer compose simple, but euphonic melodies by using a Markov chain and an Interactive Genetic Algorithm (IGA). A Markov chain is created from a user selected corpus, and is used to generate the initial population where individuals resemble musical segments the user enjoys. As a result, the initial population will consist of individuals relevant to the user’s musical taste. Coupling the Markov chain with an IGA that allows the user to make modifications to each melody by re-ordering the notes, decreases the total number of generations the IGA needs to run for. Additionally, the type of interaction that the fitness function provides is much more engaging and fun for the user than previous approaches, which results in a decreased user burnout rate.</p>
+<h3><a id="Requirements_9"></a>Requirements</h3>
+<p>This project has only been tested with:</p>
+<ul>
+<li>Python 2.7</li>
+<li>Chrome (your browser MUST be based on webkit otherwise you will not hear any music!)</li>
+<li>OS X</li>
+</ul>
+<h4><a id="Python_Package_Manager_pip_15"></a>Python Package Manager (pip)</h4>
+<p>You must have <code>pip</code> already installed on your system. If you do not, then the installation script <strong>WILL</strong> fail. I have provided <a href="#installing-pip">instructions for installing pip</a>. You cannot proceed with the installation process until <code>pip</code> is available on your system.</p>
+<h4><a id="Installation_Script_18"></a>Installation Script</h4>
+<p>An installation script, <code>setup.sh</code>, has been provided to download the necessary pre-requisites. In order to run
+the installation script, you must make it executable otherwise <code>VirtualEnv</code> will fail to activate, resulting in
+errors when installing libraries from <code>pip</code>.</p>
+<pre><code class="language-bash">% chmod +x setup.sh
+% ./setup.sh
+</code></pre>
+<p>The installation script (<code>setup.sh</code>) does the following things:</p>
+<ul>
+<li>Downloads <code>redis-2.8.2</code></li>
+<li>Unzips <code>redis-2.8.2</code></li>
+<li>Compiles Redis</li>
+<li>Copies the Redis conf file from <code>./bin/redis.conf</code> to <code>./bin/redis-2.8.2</code></li>
+<li>Deletes the <code>redis-2.8.2.tar.gz</code> that was downloaded</li>
+<li>Downloads <code>VirtualEnv</code> for Python
+<ul>
+<li>Creates a sandboxed environment to avoid cluttering your system’s Python path</li>
+<li>This step requires <code>sudo</code> because <code>VirtualEnv</code> must be installed to your default Python path, heh</li>
+</ul>
+</li>
+<li>Installs the necessary third party libraries from <code>pip</code>, which are found in <code>requirements.txt</code></li>
+</ul>
+<h3><a id="Usage_38"></a>Usage</h3>
+<h4><a id="Starting_the_Redis_Server_39"></a>Starting the Redis Server</h4>
+<p>Open up a new shell and set your current working directory to the root level of this project (<code>./alireza_thesis/code</code>).</p>
+<h5><a id="Sanity_check_42"></a>Sanity check</h5>
+<pre><code class="language-bash">% <span class="hljs-built_in">pwd</span>
+/some/directory/structure/alireza_thesis/code
+</code></pre>
+<p>Start the Redis server via:</p>
+<pre><code class="language-bash">% ./bin/redis-<span class="hljs-number">2.8</span>.<span class="hljs-number">2</span>/src/redis-server
+</code></pre>
+<h5><a id="Redis_Sanity_Check_Making_sure_youre_running_the_correct_Redis_database_53"></a>Redis Sanity Check (Making sure you’re running the correct Redis database)</h5>
+<p>To make sure you’re running the correct server, open up a new shell and set your current working directory to the root level of this project (<code>./alireza_thesis/code</code>). Next, start the Redis client via:</p>
+<pre><code class="language-bash">./bin/redis-<span class="hljs-number">2.8</span>.<span class="hljs-number">2</span>/src/redis-cli
+keys *
+</code></pre>
+<p>You should see a bunch of entries (keys) appear. You can leave the <code>redis-cli</code> shell by typing <code>exit</code> or sending a <code>CTRL+C</code> signal. You can come back to the Redis client later to experiment and see the various states of the GA.</p>
+<h4><a id="Starting_the_Python_Server_61"></a>Starting the Python Server</h4>
+<p>Open up a new shell and set your current working directory to the root level of this project (<code>./alireza_thesis/code</code>).
+Next, actiave Virtual Environment via:</p>
+<pre><code class="language-bash"><span class="hljs-built_in">source</span> virtual/bin/activate
+</code></pre>
+<p>By running the above command, you are activating the sandboxed Python enviroment, which
+includes the necessary libraries as well as a sandboxed Python interpreter. If you do not
+do this step then the code will not run as it depends on the Python interpreter found in
+<code>./virtual</code></p>
+<p>Next, you can start the Python web-server via:</p>
+<pre><code class="language-python">python runserver.py
+</code></pre>
+<p>By default, the web-server runs on <code>port 5000</code>. You can change the port value in <code>gor0x/settings/config.py</code></p>
+<p>To begin using the IGA, point your web browser to <code>http://localhost:5000</code></p>
+<p><strong>Note</strong>: You will see a <code>ConnectionError: Error 111 connecting localhost:6379. Connection refused.</code> if you do not
+have the <code>redis-server</code> running before running <code>python runserver.py</code></p>
+<h3><a id="Project_Structure_84"></a>Project Structure</h3>
+<ul>
+<li>
+<p><code>./bin</code> contains:</p>
+<ul>
+<li>A Redis configuration file</li>
+<li>All of the MIDI files that I had access to, which can be found in <code>./bin/midi</code></li>
+<li><code>populate_cache.py</code>, which is now deprecated and should not be used</li>
+<li><code>install_fluid_synth.sh</code>, which is <em>supposed</em> to install MIDI on OS X Mavericks since MIDI is not installed by default on Mavericks, however, I and many other people still had trouble getting MIDI files to play even after installing it</li>
+</ul>
+</li>
+<li>
+<p><code>./gor0x</code> contains:</p>
+<ul>
+<li><code>./ga</code> - the genetic algorithm, Markov chain, and Redis caching</li>
+<li><code>./server</code> - the Python web-server, which uses Flask</li>
+<li><code>./static</code> - the custom JavaScript for this project as well as vendor JavaScript</li>
+<li><code>./templates</code> - the different Jinja2 templates used to render the HTML</li>
+</ul>
+</li>
+</ul>
+<h3><a id="Installing_pip_98"></a>Installing pip</h3>
+<p>If you do not have <code>pip</code> on your system, then you can install it via <code>easy_install pip</code>. If you do not have <code>easy_install</code>, then you will need to go here and follow the instructions to install it <a href="http://www.pip-installer.org/en/latest/installing.html">http://www.pip-installer.org/en/latest/installing.html</a></p>
+<p>All right reserved for ther author and University of Malaya, Semester 1 2014/2015</p>
+
+</body></html>

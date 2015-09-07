@@ -1,0 +1,60 @@
+<!doctype html>
+  <head>
+    <!-- bootstrap and jQuery css -->
+    <link href="{{ url_for('static', filename='css/jquery_1.8.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='css/bootstrap_2.1.1.min.css') }}" rel="stylesheet" type="text/css"/>
+
+    <!--jQuery js-->
+    <script type="text/javascript" src={{ url_for('static', filename='js/vendor/jquery_1.8.min.js') }}></script>
+    <script type="text/javascript" src={{ url_for('static', filename='js/vendor/jquery_ui_1.8.min.js') }}></script>
+
+    <style type="text/css">
+      body {padding-top: 60px; padding-bottom: 40px; font-size: 18px; background-color: #D4D6DA;}
+    </style>
+  </head>
+
+  <body>
+     {% block navbar %}
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+              <a class="brand" href="/">gor0x</a>
+              <div class="nav-collapse">
+                <ul class="nav">
+                </ul>
+                {% block navbar_right %}
+                <ul class="nav pull-right">
+                </ul>
+                {% endblock %}
+              </div><!--/.nav-collapse -->
+            </div>
+          </div>
+    </div>
+    {% endblock %}
+    <div class=page>
+      {% block body %}
+      {% endblock %}
+      <!-- highchart graph -->
+      <script type="text/javascript" src={{ url_for('static', filename='js/vendor/high_charts.min.js') }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename='js/vendor/high_charts_exporting.min.js') }}></script>
+
+      <!-- bootstrap js dependent on jQuery -->
+      <script type="text/javascript" src={{ url_for('static', filename='js/vendor/bootstrap_2.1.1.min.js') }}></script>
+
+      <!-- midi.js for playing notes in browser-->
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/MIDI/AudioDetect.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/MIDI/LoadPlugin.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/MIDI/Plugin.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/MIDI/Player.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/Window/DOMLoader.XMLHttp.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/Window/DOMLoader.script.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/inc/Base64.js") }}></script>
+      <script type="text/javascript" src={{ url_for('static', filename="js/vendor/inc/base64binary.js") }}></script>
+    </div>
+  </body>
+</html>
